@@ -1,4 +1,5 @@
 (function () {
+    "use strict";
     var pageArray = [
         '/gallery/page1.html',
         
@@ -6,7 +7,7 @@
         
         '/gallery/page3.html'
     ],
-        timeout = 3,
+        timeout = 10,
         current,
         interval = 1000,
         seconds = 0,
@@ -21,15 +22,14 @@
         current = 0;
         localStorage.setItem("current", current);
     } else {
-        current = parseInt(localStorage.getItem("current"));
+        current = parseInt(localStorage.getItem("current"), 10);
     }
     
     function confirmRestart() {
         if (window.confirm("You've reached the end of the gallery! Start over?")) {
             localStorage.setItem("current", 0);
-            window.location.href = pageArray[0];
+            window.location.replace(pageArray[0]);
         } else {
-            window.open(location, '_self', '');
             window.close();
         }
     }
@@ -38,7 +38,7 @@
         if (current < (pageArray.length - 1)) {
             current += 1;
             localStorage.setItem("current", current);
-            window.location.href = pageArray[current];
+            window.location.replace(pageArray[current]);
         } else {
             confirmRestart();
         }
@@ -47,8 +47,10 @@
     function goBackward() {
         if (current !== 0) {
             current -= 1;
-            window.location.href = pageArray[current];
+        } else {
+            current = (pageArray.length - 1);
         }
+        window.location.replace(pageArray[current]);
     }
     
     function Timer(callback, delay) {
@@ -76,10 +78,10 @@
         
         this.restart = function () {
             start = new Date();
-            timerId = window.setTimeout(callback, 1000);
+            timerId = window.setTimeout(callback, interval);
         };
         
-        this.restart();
+        /*this.restart();*/
     }
 
     countdown = new Timer(function () {

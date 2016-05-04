@@ -3,7 +3,6 @@
     function parseString(str) {
         var output = [];
         if (/^[+\-]?\d+(?:\.?\d+)?(\s?[\-+*\/]\d+(?:\.?\d+)?)+\s?=$/.test(str)) {
-            //*([+-]?\d+(?:\.\d+))\s?([-+*/])
             output = str.split(/([\-+*\/=])/);
             return output;
         }
@@ -35,6 +34,8 @@
                 break;
             case "=":
                 return output;
+            case "":
+                break;
             default:
                 if (i === 0) {
                     output = parseFloat(calc[0]);
